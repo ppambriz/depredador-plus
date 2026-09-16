@@ -1,10 +1,23 @@
-:root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+/* Importamos tailwindcss */
+@import "tailwindcss";
+
+/* Tokens de marca: variables de colores y tipografias a utilizar */
+@theme {
+  --color-verde: #1b5e20;
+  --color-verde-claro: #2e7d32;
+  --color-verde-oscuro: #14481a;
+  --color-ambar: #f9a825;
+  --color-rojo: #c62828;
+  --color-carbon: #212121;
+  --color-gris: #616161;
+  --color-fondo: #f5f5f5;
+  --color-whatsapp: #25d366;
+
+  --font-display: "Poppins", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
 }
 
 body {
+  font-family: var(--font-sans);
   margin: 0;
-  background: black;
-  color: white;
 }
