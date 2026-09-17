@@ -1,4 +1,5 @@
 import { Layout } from "./components/layout/Layout";
+import { ResponsiveImage } from "./components/ui/ResponsiveImage";
 
 function App() {
   return (
@@ -14,6 +15,18 @@ function App() {
           Venenos e insecticidas para cucarachas, moscos, moscas, hormigas y
           alacranes. Arma tu pedido y envíalo por WhatsApp.
         </p>
+        <div className="mt-10">
+          <p className="mb-3 text-sm font-medium text-carbon">
+            Prueba del componente ImagenResponsiva:
+          </p>
+          <ResponsiveImage
+            src="https://placehold.co/600x400/1B5E20/ffffff?text=Depredador+Plus"
+            alt="Imagen de prueba con los colores de Depredador Plus"
+            width={600}
+            height={400}
+            className="rounded-lg shadow-md"
+          />
+        </div>
       </section>
     </Layout>
   );
