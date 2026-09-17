@@ -1,9 +1,15 @@
 import { Layout } from "./components/layout/Layout";
 import { ResponsiveImage } from "./components/ui/ResponsiveImage";
+import { Seo } from "./seo/Seo";
 
 function App() {
   return (
     <Layout>
+      <Seo
+        title="Depredador Plus | Venenos e insiecticidas para plagas"
+        description="Venenos e insecticidas para cucarachas, moscos, moscas, hormigas y alacranes. Arma tu pedido y envíalo por WhatsApp."
+        path="/"
+      />
       <section className="mx-auto max-w-6xl px-4 py-16">
         <p className="font-display text-sm font-semibold uppercase tracking-wider text-ambar">
           Control de plagas
