@@ -1,9 +1,12 @@
 import { createClient } from "@supabase/supabase-js";
 
-const supabaseUrl = import.meta.env.VITTE_SUPABASE_URL
-const supabaseAnonkey = import.meta.env.VITE_SUPABASE_ANON_KEY
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY
+
+// console.log('ENV URL:', JSON.stringify(supabaseUrl))
+// console.log('ENV KEY:', JSON.stringify(supabaseAnonKey?.slice(0, 20)))
 
 export const supabase = 
-    supabaseUrl && supabaseAnonkey
-    ? createClient(supabaseUrl, supabaseAnonkey)
+    supabaseUrl && supabaseAnonKey
+    ? createClient(supabaseUrl, supabaseAnonKey)
     : null
