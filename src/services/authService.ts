@@ -2,6 +2,8 @@ import { supabase } from '@/lib/supabase'
 
 export const authService = {
   async login(email: string, password: string) {
+    //console.log('Supabase client:', supabase ? 'connected' : 'NULL')
+
     if (!supabase) throw new Error('Supabase is not configured')
 
     const { data, error } = await supabase.auth.signInWithPassword({
