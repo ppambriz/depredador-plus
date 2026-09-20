@@ -4,6 +4,7 @@ type SeoProps = {
   title: string;
   description: string;
   path?: string;
+  noindex?: boolean;
 };
 
 export const Seo = ({ title, description, path = "/" }: SeoProps) => {
