@@ -1,56 +1,87 @@
-// Categories
+// -- Audit fields (shared by soft-deletable entities) --
 
-export type CategoryType = "insect" | "formart" | "area";
+export interface AuditFields {
+  active: boolean;
+  created_at: string;
+  created_by: string | null;
+  deleted_at: string | null;
+  deleted_by: string | null;
+  deleted_user_agent: string | null;
+  deleted_ip: string | null;
+}
 
-export interface Category {
+// -- Code sequences --
+
+export type CodeEntity = "product" | "category" | "banner_slide";
+
+export interface CodeSequence {
+  entity: CodeEntity;
+  prefix: string;
+  padding: number;
+  updated_at: string;
+}
+
+// -- Categories --
+
+export type CategoryType = "insect" | "format" | "area" | "line";
+
+export interface Category extends AuditFields {
   id: string;
+  code: string;
   name: string;
   slug: string;
   type: CategoryType;
-  created_at: string;
 }
 
-//Products
+// -- Products --
 
-export interface Product {
+export interface Product extends AuditFields {
   id: string;
+  code: string;
   name: string;
   slug: string;
   description: string;
   price: number;
+  cost: number;
   image_url: string | null;
   category_id: string | null;
-  active: boolean;
+  visible_public: boolean;
+
+  // safety data sheet
   active_ingredient: string | null;
   usage_instructions: string | null;
   warnings: string | null;
-  created_at: string;
+
+  // inventory
+  stock: number;
+  min_stock: number;
 }
 
-// Baner slides
+// -- Banner slides --
 
-export interface BannerSlide {
+export interface BannerSlide extends AuditFields {
   id: string;
+  code: string;
   image_url: string;
   title: string | null;
   subtitle: string | null;
   link: string | null;
   order: number;
-  active: boolean;
 }
 
-//Site settings
+// -- Site settings --
 
-export type SettingsSection =
+export type SettingSection =
   | "banner"
   | "welcome_modal"
   | "announcement_bar"
   | "contact"
-  | "seo";
+  | "modules";
 
 export interface SiteSetting {
-  section: SettingsSection;
+  section: SettingSection;
   enabled: boolean;
   config: Record<string, unknown>;
   updated_at: string;
+  updated_by: string | null;
 }
