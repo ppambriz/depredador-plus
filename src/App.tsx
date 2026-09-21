@@ -9,6 +9,8 @@ import { CatalogPage } from "./pages/CatalogPage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { DashboardPage } from "./pages/admin/DashboardPage";
 import { LoginPage } from "./pages/admin/LoginPage";
+import { CategoriesPage } from "./pages/admin/CategoriesPage";
+import { CategoryFormPage } from "@/pages/admin/CategoryFormPage";
 
 export const App = () => {
   return (
@@ -28,6 +30,30 @@ export const App = () => {
             element={
               <ProtectedRoute>
                 <DashboardPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/categorias"
+            element={
+              <ProtectedRoute>
+                <CategoriesPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/categorias/nueva"
+            element={
+              <ProtectedRoute>
+                <CategoryFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/categorias/:id"
+            element={
+              <ProtectedRoute>
+                <CategoryFormPage />
               </ProtectedRoute>
             }
           />
