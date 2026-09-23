@@ -9,7 +9,7 @@ export function Header() {
         </span> */}
 
         <Link to="/" className="font-display text-lg font-bold text-verde">
-          Depredador Plus
+          {/* Depredador Plus */}Generador de Reportes
         </Link>
 
         <nav className="hidden sm:flex gap-6 text-sm font-medium ">

@@ -66,7 +66,7 @@ export const CategoriesPage = () => {
     }
   }
 
-  const noStatusSelected = !showActive && showInactive;
+  const noStatusSelected = !showActive && !showInactive;
 
   return (
     <>
