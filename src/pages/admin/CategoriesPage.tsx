@@ -8,12 +8,22 @@ import { Seo } from "@/seo/Seo";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { CATEGORY_TYPE_LABELS } from "@/lib/labels";
 import { formatDate } from "@/lib/format";
+import { useToast } from "@/components/ui/ToastProvider";
+import { ConfirmDialog } from "@/components/ui/ConfirmDialog";
+import { useSort } from "@/hooks/useSort";
+import { SortableHeader } from "@/components/ui/SortableHeader";
 
 export const CategoriesPage = () => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [reloadKey, setReloadKey] = useState(0);
+  const { showToast } = useToast();
+  const [toDeactivate, setToDeactivate] = useState<Category | null>(null);
+  const { sorted, field, direction, toggleSort } = useSort<Category>(
+    categories,
+    "code",
+  );
 
   //Filtros
   const [showActive, setShowActive] = useState(true);
@@ -44,25 +54,26 @@ export const CategoriesPage = () => {
     };
   }, [showActive, showInactive, type, debouncedSearhc, reloadKey]);
 
-  async function handleDeactivate(cat: Category) {
-    const ok = window.confirm(
-      `¿Desactivar la categoría ${cat.code} · ${cat.name}?`,
-    );
-    if (!ok) return;
+  async function confirmDeactivate() {
+    if (!toDeactivate) return;
     try {
-      await categoryService.softDelete(cat.id);
+      await categoryService.softDelete(toDeactivate.id);
+      showToast(`Categoría ${toDeactivate.code} desactivada.`, "success");
       setReloadKey((k) => k + 1);
     } catch {
-      setError("No se pudo desactivar la categoría.");
+      showToast("No se pudo desactivar la categoría.", "error");
+    } finally {
+      setToDeactivate(null);
     }
   }
 
   async function handleRestore(cat: Category) {
     try {
       await categoryService.restore(cat.id);
+      showToast(`Categoría ${cat.code} reactivada.`, "success");
       setReloadKey((k) => k + 1);
     } catch {
-      setError("No se pudo reactivar la categoría.");
+      showToast("No se pudo reactivar la categoría.", "error");
     }
   }
 
@@ -154,7 +165,7 @@ export const CategoriesPage = () => {
             </p>
           ) : loading ? (
             <p className="p-6 text-center text-sm text-gris">Cargando...</p>
-          ) : categories.length === 0 ? (
+          ) : sorted.length === 0 ? (
             <p className="p-6 text-center text-sm text-gris">
               No hay categorías con estos filtros.
             </p>
@@ -162,17 +173,47 @@ export const CategoriesPage = () => {
             <table className="w-full text-left text-sm">
               <thead className="border-b border-black/5 bg-fondo text-xs uppercase text-gris">
                 <tr>
-                  <th className="px-4 py-3">Código</th>
-                  <th className="px-4 py-3">Nombre</th>
+                  <SortableHeader<Category>
+                    label="Código"
+                    field="code"
+                    currentField={field}
+                    direction={direction}
+                    onSort={toggleSort}
+                  />
+                  <SortableHeader<Category>
+                    label="Nombre"
+                    field="name"
+                    currentField={field}
+                    direction={direction}
+                    onSort={toggleSort}
+                  />
                   <th className="px-4 py-3">Slug</th>
-                  <th className="px-4 py-3">Tipo</th>
-                  <th className="px-4 py-3">Estado</th>
-                  <th className="px-4 py-3">Creada</th>
+                  <SortableHeader<Category>
+                    label="Tipo"
+                    field="type"
+                    currentField={field}
+                    direction={direction}
+                    onSort={toggleSort}
+                  />
+                  <SortableHeader<Category>
+                    label="Estado"
+                    field="active"
+                    currentField={field}
+                    direction={direction}
+                    onSort={toggleSort}
+                  />
+                  <SortableHeader<Category>
+                    label="Creada"
+                    field="created_at"
+                    currentField={field}
+                    direction={direction}
+                    onSort={toggleSort}
+                  />
                   <th className="px-4 py-3 text-right">Acciones</th>
                 </tr>
               </thead>
               <tbody>
-                {categories.map((cat) => (
+                {sorted.map((cat) => (
                   <tr
                     key={cat.id}
                     className="border-b border-black/5 last:border-0"
@@ -209,7 +250,7 @@ export const CategoriesPage = () => {
                         </Link>
                         {cat.active ? (
                           <button
-                            onClick={() => handleDeactivate(cat)}
+                            onClick={() => setToDeactivate(cat)}
                             className="rounded-md px-2 py-1 text-xs font-medium text-rojo hover:bg-rojo/5"
                           >
                             Desactivar
@@ -230,6 +271,15 @@ export const CategoriesPage = () => {
             </table>
           )}
         </div>
+        <ConfirmDialog
+          open={toDeactivate !== null}
+          title="Desactivar categoría"
+          message={`La categoría ${toDeactivate?.code} · ${toDeactivate?.name} dejará de mostrarse, pero podrás reactivarla después.`}
+          confirmLabel="Desactivar"
+          danger
+          onConfirm={confirmDeactivate}
+          onCancel={() => setToDeactivate(null)}
+        />
       </AdminLayout>
     </>
   );
