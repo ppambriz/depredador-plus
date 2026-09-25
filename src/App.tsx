@@ -11,6 +11,8 @@ import { DashboardPage } from "./pages/admin/DashboardPage";
 import { LoginPage } from "./pages/admin/LoginPage";
 import { CategoriesPage } from "./pages/admin/CategoriesPage";
 import { CategoryFormPage } from "@/pages/admin/CategoryFormPage";
+import { ProductsPage } from "@/pages/admin/ProductsPage";
+import { ProductFormPage } from "@/pages/admin/ProductFormPage";
 
 export const App = () => {
   return (
@@ -54,6 +56,30 @@ export const App = () => {
             element={
               <ProtectedRoute>
                 <CategoryFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/productos"
+            element={
+              <ProtectedRoute>
+                <ProductsPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/productos/nuevo"
+            element={
+              <ProtectedRoute>
+                <ProductFormPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/productos/:id"
+            element={
+              <ProtectedRoute>
+                <ProductFormPage />
               </ProtectedRoute>
             }
           />

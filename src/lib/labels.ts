@@ -6,3 +6,9 @@ export const CATEGORY_TYPE_LABELS: Record<CategoryType, string> = {
   area: "Área de uso",
   line: "Línea de negocio",
 };
+
+export const PRODUCT_VISIBILITY_LABELS = {
+  all: "Todos",
+  public: "Visibles en tienda",
+  internal: "Solo internos",
+} as const;
