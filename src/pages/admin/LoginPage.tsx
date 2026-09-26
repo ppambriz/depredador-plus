@@ -1,27 +1,27 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Seo } from '@/seo/Seo'
-import { authService } from '@/services/authService'
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Seo } from "@/seo/Seo";
+import { authService } from "@/services/authService";
 
 export function LoginPage() {
-  const navigate = useNavigate()
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault()
-    setError('')
-    setLoading(true)
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
     try {
-      await authService.login(email, password)
-      navigate('/admin')
+      await authService.login(email, password);
+      navigate("/admin");
     } catch {
-      setError('Credenciales incorrectas. Verifica tu correo y contraseña.')
+      setError("Credenciales incorrectas. Verifica tu correo y contraseña.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
@@ -56,7 +56,7 @@ export function LoginPage() {
               type="email"
               required
               value={email}
-              onChange={e => setEmail(e.target.value)}
+              onChange={(e) => setEmail(e.target.value)}
               className="mt-1 block w-full rounded-lg border border-black/10 px-3 py-2 text-sm outline-none transition focus:border-verde focus:ring-1 focus:ring-verde"
             />
           </label>
@@ -67,7 +67,7 @@ export function LoginPage() {
               type="password"
               required
               value={password}
-              onChange={e => setPassword(e.target.value)}
+              onChange={(e) => setPassword(e.target.value)}
               className="mt-1 block w-full rounded-lg border border-black/10 px-3 py-2 text-sm outline-none transition focus:border-verde focus:ring-1 focus:ring-verde"
             />
           </label>
@@ -77,10 +77,12 @@ export function LoginPage() {
             disabled={loading}
             className="mt-6 w-full rounded-lg bg-verde py-2.5 font-medium text-white transition hover:bg-verde-oscuro disabled:opacity-50"
           >
-            {loading ? 'Ingresando...' : 'Ingresar'}
+            {loading ? "Ingresando..." : "Ingresar"}
           </button>
         </form>
       </div>
     </>
-  )
+  );
 }
+
+export default LoginPage;

@@ -3,7 +3,7 @@
 
 /* Tokens de marca: variables de colores y tipografias a utilizar */
 @theme {
-  --color-verde: #0072CE; /*#1b5e20*/
+  --color-verde: #1b5e20; /* #0072CE*/
   --color-verde-claro: #2e7d32;
   --color-verde-oscuro: #14481a;
   --color-ambar: #f9a825;
