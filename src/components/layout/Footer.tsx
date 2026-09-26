@@ -2,7 +2,10 @@ export function Footer() {
   return (
     <footer className="border-t border-black/5 bg-white">
       <div className="mx-auto max-w-6xl px-4 py-8 text-sm text-gris">
-        <p className="font-display font-semibold text-verde">Depredador Plus</p>
+        <p className="font-display font-semibold text-verde">
+          Depredador Plus
+          {/* Generador de Reportes */}
+        </p>
         <p className="mt-1">
           Venenos e insecticidas para cucarachas, moscos, moscas, hormigas y
           alacranes.
