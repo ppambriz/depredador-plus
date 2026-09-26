@@ -206,4 +206,6 @@ export function CatalogPage() {
       </section>
     </>
   );
-}
+};
+
+export default CatalogPage;

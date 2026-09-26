@@ -22,7 +22,7 @@ export function Header() {
             Catalogo
           </Link>
 
-          <Link to="/" className="transition hover:text-verde">
+          <Link to="/contacto" className="transition hover:text-verde">
             Contacto
           </Link>
         </nav>

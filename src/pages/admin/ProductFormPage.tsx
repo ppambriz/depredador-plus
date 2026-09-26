@@ -445,3 +445,4 @@ export function ProductFormPage() {
     </>
   );
 }
+export default ProductFormPage;
