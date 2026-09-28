@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import type { Category, Product } from "@/types";
 import { productService } from "@/services/productService";
 import { categoryService } from "@/services/categoryService";
@@ -115,7 +115,7 @@ export function CatalogPage() {
         <div className="mt-8 flex flex-wrap gap-2">
           <button
             onClick={() => selectCategory("")}
-            className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+            className={`cursor-pointer rounded-full px-4 py-2 text-sm font-medium transition ${
               !activeCategory
                 ? "bg-verde text-white"
                 : "border border-black/10 text-gris hover:border-verde/40 hover:text-verde"
@@ -127,7 +127,7 @@ export function CatalogPage() {
             <button
               key={cat.id}
               onClick={() => selectCategory(cat.slug)}
-              className={`rounded-full px-4 py-2 text-sm font-medium transition ${
+              className={` cursor-pointer rounded-full px-4 py-2 text-sm font-medium transition ${
                 activeCategory === cat.slug
                   ? "bg-verde text-white"
                   : "border border-black/10 text-gris hover:border-verde/40 hover:text-verde"
@@ -174,12 +174,15 @@ export function CatalogPage() {
               <p className="text-gris">
                 No encontramos productos con esos criterios.
               </p>
-              <Link
-                to="/catalogo"
-                className="mt-2 inline-block text-sm font-medium text-verde hover:underline"
+              <button
+                onClick={() => {
+                  setSearch("");
+                  setSearchParams({});
+                }}
+                className="mt-2 text-sm font-medium text-verde hover:underline cursor-pointer"
               >
                 Ver todo el catálogo
-              </Link>
+              </button>
             </div>
           ) : (
             <>
@@ -206,6 +209,6 @@ export function CatalogPage() {
       </section>
     </>
   );
-};
+}
 
 export default CatalogPage;
