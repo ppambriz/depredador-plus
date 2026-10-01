@@ -40,7 +40,7 @@ export const ProductPage = () => {
         const [cat, /*pSiblings,*/ pCousin] = await Promise.all([
           categoryService.getById(pFound.category_id),
           // productService.listByCategory(pFound.category_id), //Muestra productos relacionados a categoría
-          productService.listRelatedRandon(), // Muestra cualquier producto
+          productService.listRelatedRandom(), // Muestra cualquier producto
         ]);
 
         if (cancelled) return;

@@ -51,7 +51,7 @@ export const productService = {
     return data as Product[];
   },
 
-  async listRelatedRandon(): Promise<Product[]> {
+  async listRelatedRandom(): Promise<Product[]> {
     if (!supabase) return [];
 
     const { data, error } = await supabase
