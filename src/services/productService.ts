@@ -51,6 +51,24 @@ export const productService = {
     return data as Product[];
   },
 
+  async listRelatedRandom(): Promise<Product[]> {
+    if (!supabase) return [];
+
+    const { data, error } = await supabase
+      .from("products")
+      .select("*")
+      .eq("active", true)
+      .eq("visible_public", true);
+
+    if (error) throw error;
+
+    if (!data) return [];
+
+    const randomizedData = [...data].sort(() => Math.random() - 0.5);
+
+    return randomizedData as Product[];
+  },
+
   async getBySlug(slug: string): Promise<Product | null> {
     if (!supabase) return null;
 
