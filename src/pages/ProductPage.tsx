@@ -46,7 +46,7 @@ export const ProductPage = () => {
         if (cancelled) return;
         setCategory(cat);
         setPRelated(pCousin.filter((p) => p.id !== pFound.id).slice(0, 3));
-      }
+      } 
 
       setLoading(false);
     }
