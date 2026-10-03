@@ -1,5 +1,10 @@
-import type { SiteSetting, BannerSlide } from "@/types";
+import type { BannerConfig, BannerSlide, SiteSetting } from "@/types";
 import { supabase } from "@/lib/supabase";
+
+const DEFAULT_BANNER_CONFIG: BannerConfig = {
+  mode: "static",
+  autoplay_ms: 5000,
+};
 
 export const settingsService = {
   async get(section: string): Promise<SiteSetting | null> {
@@ -26,5 +31,27 @@ export const settingsService = {
 
     if (error) return [];
     return data as BannerSlide[];
+  },
+
+  async getBanner(): Promise<{
+    enabled: boolean;
+    config: BannerConfig;
+    slides: BannerSlide[];
+  }> {
+    const [setting, slides] = await Promise.all([
+      this.get("banner"),
+      this.getBannerSlides(),
+    ]);
+
+    const config: BannerConfig = {
+      ...DEFAULT_BANNER_CONFIG,
+      ...((setting?.config as Partial<BannerConfig>) ?? {}),
+    };
+
+    return {
+      enabled: setting?.enabled ?? false,
+      config,
+      slides,
+    };
   },
 };

@@ -1,4 +1,5 @@
 import { Seo } from "@/seo/Seo";
+import { PromoBanner } from "@/components/catalog/PromoBanner";
 
 export const HomePage = () => {
   return (
@@ -8,6 +9,8 @@ export const HomePage = () => {
         description="Venenos e insecticidas para cucarachas, moscos, moscas, hormigas y alacranes. Arma tu pedido y envíalo por WhatsApp."
         path="/"
       />
+      
+      <PromoBanner/>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
         <p className="font-display text-sm font-semibold uppercase tracking-wider text-ambar">
