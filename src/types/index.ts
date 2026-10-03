@@ -85,3 +85,12 @@ export interface SiteSetting {
   updated_at: string;
   updated_by: string | null;
 }
+
+// Benner configuration
+
+export type BannerMode = "static" | "carousel";
+
+export interface BannerConfig {
+  mode: BannerMode;
+  autoplay_ms: number;
+}
