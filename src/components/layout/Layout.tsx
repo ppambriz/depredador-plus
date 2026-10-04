@@ -2,6 +2,7 @@ import { Header } from "./Header";
 import { Footer } from "./Footer";
 import { AnnouncementBar } from "./AnnouncementBar";
 import { WelcomeModal } from "./WelcomeModal";
+import { FloatingWhatsApp } from "./FloatingWhatsApp";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ export function Layout({ children }: LayoutProps) {
       <main className="flex-1">{children}</main>
       <Footer />
       <WelcomeModal />
+      <FloatingWhatsApp />
     </div>
   );
 }
