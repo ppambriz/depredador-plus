@@ -1,13 +1,17 @@
 import { Link } from "react-router-dom";
+
 import { useOrder } from "@/components/order/OrderProvider";
 import { useModules } from "@/hooks/useModules";
 import { Seo } from "@/seo/Seo";
 import { formatPrice } from "@/lib/format";
+import { useState } from "react";
+import { SendOrderForm } from "@/components/order/SendOrderForm";
 
 export function OrderPage() {
   const { items, total, itemCount, setQuantity, removeItem, clear } =
     useOrder();
   const { modules, loading } = useModules();
+  const [sentCode, setSentCode] = useState<string | null>(null);
 
   if (loading)
     return <p className="p-12 text-center text-sm text-gris">Cargando...</p>;
@@ -28,6 +32,36 @@ export function OrderPage() {
             className="mt-6 inline-block rounded-lg bg-verde px-5 py-3 font-medium text-white transition hover:bg-verde-oscuro"
           >
             Ver catálogo
+          </Link>
+        </section>
+      </>
+    );
+  }
+
+  if (sentCode) {
+    return (
+      <>
+        <Seo
+          title="Pedido enviado | Depredador Plus"
+          description="Pedido enviado"
+          noindex
+        />
+        <section className="mx-auto max-w-lg px-4 py-20 text-center">
+          <span className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-verde/10 text-3xl">
+            ✓
+          </span>
+          <h1 className="mt-6 font-display text-2xl font-extrabold text-verde">
+            Pedido {sentCode} registrado
+          </h1>
+          <p className="mt-3 text-gris">
+            Si WhatsApp no se abrió, revisa que tu navegador permita ventanas
+            emergentes. Nos pondremos en contacto contigo para confirmar.
+          </p>
+          <Link
+            to="/catalogo"
+            className="mt-8 inline-block rounded-lg bg-verde px-6 py-3 font-medium text-white transition hover:bg-verde-oscuro"
+          >
+            Seguir viendo productos
           </Link>
         </section>
       </>
@@ -149,13 +183,9 @@ export function OrderPage() {
                 </span>
               </div>
 
-              <button
-                type="button"
-                disabled
-                className="mt-6 w-full cursor-not-allowed rounded-xl bg-whatsapp/40 py-3.5 font-display font-semibold text-white"
-              >
-                Enviar pedido por WhatsApp
-              </button>
+              <div className="mt-6 border-t border-black/5 pt-6">
+                <SendOrderForm onSent={setSentCode} />
+              </div>
               <p className="mt-2 text-center text-xs text-gris">
                 El envío por WhatsApp estará disponible en el siguiente paso.
               </p>
