@@ -20,6 +20,7 @@ const CategoryFormPage = lazy(() => import("@/pages/admin/CategoryFormPage"));
 const ProductsPage = lazy(() => import("@/pages/admin/ProductsPage"));
 const ProductFormPage = lazy(() => import("@/pages/admin/ProductFormPage"));
 const SettingsPage = lazy(() => import("@/pages/admin/SettingsPage"));
+const OrderPage = lazy(() => import("@/pages/OrderPage"));
 
 export const App = () => {
   return (
@@ -32,6 +33,7 @@ export const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/catalogo" element={<CatalogPage />} />
             <Route path="/producto/:id" element={<ProductPage />} />
+            <Route path="/pedido" element={<OrderPage />} />
 
             {/* Admin */}
             <Route path="/admin/login" element={<LoginPage />} />
