@@ -1,46 +1,49 @@
-import { supabase } from "@/lib/supabase";
-import { compressImage } from "@/lib/image";
+import { supabase } from '@/lib/supabase'
+import { compressImage } from '@/lib/image'
 
-const BUCKET = "product-images";
+const PRODUCT_BUCKET = 'product-images'
+const BANNER_BUCKET = 'banner-images'
+
+async function upload(
+  bucket: string,
+  file: File,
+  prefix: string,
+  maxSize: number,
+): Promise<string> {
+  if (!supabase) throw new Error('Supabase is not configured')
+
+  const compressed = await compressImage(file, maxSize)
+  const path = `${prefix}-${Date.now()}.webp`
+
+  const { error } = await supabase.storage
+    .from(bucket)
+    .upload(path, compressed, { contentType: 'image/webp', upsert: false })
+
+  if (error) throw error
+
+  const { data } = supabase.storage.from(bucket).getPublicUrl(path)
+  return data.publicUrl
+}
+
+async function removeByUrl(bucket: string, url: string | null): Promise<void> {
+  if (!supabase || !url) return
+
+  const marker = `/${bucket}/`
+  const index = url.indexOf(marker)
+  if (index === -1) return
+
+  const path = url.slice(index + marker.length)
+  await supabase.storage.from(bucket).remove([path])
+}
 
 export const storageService = {
-  async uploadProductImage(file: File, productCode: string): Promise<string> {
-    if (!supabase) throw new Error("Supabase is not configured");
+  uploadProductImage: (file: File, code: string) =>
+    upload(PRODUCT_BUCKET, file, code, 1200),
 
-    const compressed = await compressImage(file);
-    const path = `${productCode}-${Date.now()}.webp`;
+  removeByUrl: (url: string | null) => removeByUrl(PRODUCT_BUCKET, url),
 
-    const { error } = await supabase.storage
-      .from(BUCKET)
-      .upload(path, compressed, { contentType: "image/webp", upsert: false });
+  uploadBannerImage: (file: File, code: string) =>
+    upload(BANNER_BUCKET, file, code, 1920),
 
-    if (error) throw error;
-
-    const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-    return data.publicUrl;
-  },
-
-  async removeByUrl(url: string | null): Promise<void> {
-    if (!supabase || !url) return;
-
-    const marker = `/${BUCKET}/`;
-    const index = url.indexOf(marker);
-    if (index === -1) return;
-
-    const path = url.slice(index + marker.length);
-    await supabase.storage.from(BUCKET).remove([path]);
-  },
-  // async removeByUrl(url: string | null): Promise<void> {
-  //   if (!supabase || !url) return;
-
-  //   const marker = `/${BUCKET}/`;
-  //   const index = url.indexOf(marker);
-  //   if (index === -1) return;
-
-  //   const path = url.slice(index + marker.length);
-  //   console.log("REMOVING:", path);
-
-  //   const { data, error } = await supabase.storage.from(BUCKET).remove([path]);
-  //   console.log("REMOVE RESULT:", { data, error });
-  // },
-};
+  removeBannerByUrl: (url: string | null) => removeByUrl(BANNER_BUCKET, url),
+}

@@ -5,6 +5,7 @@ const NAV_ITEMS = [
   { to: "/admin", label: "Inicio" },
   { to: "/admin/categorias", label: "Categorías" },
   { to: "/admin/productos", label: "Productos" },
+  { to: "/admin/configuracion", label: "Configuración" },
 ];
 
 type Props = {
