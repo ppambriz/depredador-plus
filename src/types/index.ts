@@ -192,3 +192,16 @@ export interface Order extends AuditFields {
   confirmed_at: string | null;
   delivered_at: string | null;
 }
+
+// -- Draft order (browser only, before it is sent) --
+
+export interface DraftItem {
+  product_id: string;
+  product_code: string;
+  product_name: string;
+  product_slug: string;
+  image_url: string | null;
+  unit_price: number;
+  unit_cost: number;
+  quantity: number;
+}

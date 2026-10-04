@@ -7,9 +7,12 @@ import { productService } from "@/services/productService";
 import { categoryService } from "@/services/categoryService";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { formatPrice } from "@/lib/format";
+import { AddToOrderButton } from "@/components/order/AddToOrderButton";
+import { useModules } from "@/hooks/useModules";
 
 export const ProductPage = () => {
   const { id: slug } = useParams();
+  const { modules } = useModules();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [category, setCategory] = useState<Category | null>(null);
@@ -186,15 +189,11 @@ export const ProductPage = () => {
               </p>
             )}
 
-            {/* Order button — wired up in DP017 */}
-            <button
-              type="button"
-              disabled
-              className="mt-8 w-full cursor-not-allowed rounded-lg bg-verde/40 px-6 py-3.5 font-medium text-white sm:w-auto"
-              title="Disponible próximamente"
-            >
-              Agregar al pedido
-            </button>
+            {modules.orders && (
+              <div className="mt-8">
+                <AddToOrderButton product={product} showQuantity />
+              </div>
+            )}
             <p className="mt-2 text-xs text-gris">
               El armado de pedidos estará disponible muy pronto.
             </p>
