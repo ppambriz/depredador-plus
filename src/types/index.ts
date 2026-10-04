@@ -94,3 +94,36 @@ export interface BannerConfig {
   mode: BannerMode;
   autoplay_ms: number;
 }
+
+export type ModalFrequency = "always" | "session" | "days";
+
+export interface WelcomeModalConfig {
+  title: string;
+  text: string;
+  image_url: string | null;
+  button_label: string;
+  button_link: string;
+  frequency: ModalFrequency;
+  frequency_days: number;
+  start_date: string | null;
+  end_date: string | null;
+}
+
+export interface AnnouncementBarConfig {
+  text: string;
+  color: string;
+  link: string;
+}
+
+export interface ContactConfig {
+  whatsapp: string;
+  email: string;
+  business_name: string;
+}
+
+export interface ModulesConfig {
+  orders: boolean;
+  credit: boolean;
+  inventory: boolean;
+  reports: boolean;
+}

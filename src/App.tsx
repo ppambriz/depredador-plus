@@ -19,6 +19,7 @@ const CategoriesPage = lazy(() => import("@/pages/admin/CategoriesPage"));
 const CategoryFormPage = lazy(() => import("@/pages/admin/CategoryFormPage"));
 const ProductsPage = lazy(() => import("@/pages/admin/ProductsPage"));
 const ProductFormPage = lazy(() => import("@/pages/admin/ProductFormPage"));
+const SettingsPage = lazy(() => import("@/pages/admin/SettingsPage"));
 
 export const App = () => {
   return (
@@ -34,6 +35,14 @@ export const App = () => {
 
             {/* Admin */}
             <Route path="/admin/login" element={<LoginPage />} />
+            <Route
+              path="/admin/configuracion"
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/admin"
               element={
