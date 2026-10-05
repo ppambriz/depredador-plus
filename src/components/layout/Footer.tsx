@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 import type { ContactConfig } from "@/types";
 import { usePublicSetting } from "@/hooks/usePublicSetting";
 import { DEFAULTS } from "@/services/settingsService";
@@ -25,24 +27,32 @@ export function Footer() {
 
         {(whatsappLink || config.email) && (
           <div className="mt-4 flex flex-wrap gap-4">
-            {whatsappLink && (
-              <a
-                href={whatsappLink}
-                target="_blank"
-                rel="noopener noreferrer"
+            <div className="mt-4 flex flex-wrap gap-4">
+              {whatsappLink && (
+                <a
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-medium text-verde hover:underline"
+                >
+                  WhatsApp
+                </a>
+              )}
+              {config.email && (
+                <a
+                  href={`mailto:${config.email}`}
+                  className="font-medium text-verde hover:underline"
+                >
+                  {config.email}
+                </a>
+              )}
+              <Link
+                to="/aviso-de-privacidad"
                 className="font-medium text-verde hover:underline"
               >
-                WhatsApp
-              </a>
-            )}
-            {config.email && (
-              <a
-                href={`mailto:${config.email}`}
-                className="font-medium text-verde hover:underline"
-              >
-                {config.email}
-              </a>
-            )}
+                Aviso de privacidad
+              </Link>
+            </div>
           </div>
         )}
 
