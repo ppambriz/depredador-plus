@@ -7,9 +7,14 @@ import { productService } from "@/services/productService";
 import { categoryService } from "@/services/categoryService";
 import { ProductCard } from "@/components/catalog/ProductCard";
 import { formatPrice } from "@/lib/format";
+import { AddToOrderButton } from "@/components/order/AddToOrderButton";
+import { useModules } from "@/hooks/useModules";
+import { JsonLd } from "@/seo/JsonLd";
+import { breadcrumbData, productData } from "@/seo/structuredData";
 
 export const ProductPage = () => {
   const { id: slug } = useParams();
+  const { modules } = useModules();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [category, setCategory] = useState<Category | null>(null);
@@ -117,6 +122,24 @@ export const ProductPage = () => {
           product.description || `${product.name} para control de plagas.`
         }
         path={`/producto/${product.slug}`}
+        image={product.image_url ?? undefined}
+      />
+
+      <JsonLd data={productData(product, category)} />
+      <JsonLd
+        data={breadcrumbData([
+          { name: "Inicio", url: "/" },
+          { name: "Catálogo", url: "/catalogo" },
+          ...(category
+            ? [
+                {
+                  name: category.name,
+                  url: `/catalogo?categoria=${category.slug}`,
+                },
+              ]
+            : []),
+          { name: product.name, url: `/producto/${product.slug}` },
+        ])}
       />
 
       <section className="mx-auto max-w-6xl px-4 py-10">
@@ -163,7 +186,7 @@ export const ProductPage = () => {
           {/* Info */}
           <div>
             {category && (
-              <span className="text-xs font-semibold uppercase tracking-wide text-ambar">
+              <span className="text-xs font-semibold uppercase tracking-wide text-ambar-texto">
                 {category.name}
               </span>
             )}
@@ -186,15 +209,11 @@ export const ProductPage = () => {
               </p>
             )}
 
-            {/* Order button — wired up in DP017 */}
-            <button
-              type="button"
-              disabled
-              className="mt-8 w-full cursor-not-allowed rounded-lg bg-verde/40 px-6 py-3.5 font-medium text-white sm:w-auto"
-              title="Disponible próximamente"
-            >
-              Agregar al pedido
-            </button>
+            {modules.orders && (
+              <div className="mt-8">
+                <AddToOrderButton product={product} showQuantity />
+              </div>
+            )}
             <p className="mt-2 text-xs text-gris">
               El armado de pedidos estará disponible muy pronto.
             </p>

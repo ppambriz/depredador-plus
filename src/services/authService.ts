@@ -1,39 +1,39 @@
-import { supabase } from '@/lib/supabase'
+import { supabase } from "@/lib/supabase";
 
 export const authService = {
   async login(email: string, password: string) {
     //console.log('Supabase client:', supabase ? 'connected' : 'NULL')
 
-    if (!supabase) throw new Error('Supabase is not configured')
+    if (!supabase) throw new Error("Supabase is not configured");
 
     const { data, error } = await supabase.auth.signInWithPassword({
       email,
       password,
-    })
+    });
 
-    if (error) throw error
-    return data
+    if (error) throw error;
+    return data;
   },
 
   async logout() {
-    if (!supabase) return
-    await supabase.auth.signOut()
+    if (!supabase) return;
+    await supabase.auth.signOut();
   },
 
   async getSession() {
-    if (!supabase) return null
+    if (!supabase) return null;
 
-    const { data } = await supabase.auth.getSession()
-    return data.session
+    const { data } = await supabase.auth.getSession();
+    return data.session;
   },
 
   onAuthChange(callback: (session: unknown) => void) {
-    if (!supabase) return { unsubscribe: () => {} }
+    if (!supabase) return { unsubscribe: () => {} };
 
     const { data } = supabase.auth.onAuthStateChange((_event, session) => {
-      callback(session)
-    })
+      callback(session);
+    });
 
-    return { unsubscribe: () => data.subscription.unsubscribe() }
+    return { unsubscribe: () => data.subscription.unsubscribe() };
   },
-}
+};

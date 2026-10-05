@@ -41,7 +41,7 @@ const ICONS: Record<ToastType, string> = {
 const ICON_STYLES: Record<ToastType, string> = {
   success: "bg-verde/10 text-verde",
   error: "bg-rojo/10 text-rojo",
-  info: "bg-ambar/10 text-ambar",
+  info: "bg-ambar/10 text-ambar-texto",
 };
 
 export const ToastProvider = ({ children }: { children: React.ReactNode }) => {

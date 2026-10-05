@@ -6,6 +6,7 @@ import { Layout } from "@/components/layout/Layout";
 import { HomePage } from "@/pages/HomePage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PageLoader } from "./components/ui/PageLoader";
+import PrivacyPage from "./pages/PrivacyPage";
 
 // Public pages: loades on demand
 const CatalogPage = lazy(() => import("@/pages/CatalogPage"));
@@ -19,6 +20,8 @@ const CategoriesPage = lazy(() => import("@/pages/admin/CategoriesPage"));
 const CategoryFormPage = lazy(() => import("@/pages/admin/CategoryFormPage"));
 const ProductsPage = lazy(() => import("@/pages/admin/ProductsPage"));
 const ProductFormPage = lazy(() => import("@/pages/admin/ProductFormPage"));
+const SettingsPage = lazy(() => import("@/pages/admin/SettingsPage"));
+const OrderPage = lazy(() => import("@/pages/OrderPage"));
 
 export const App = () => {
   return (
@@ -31,9 +34,19 @@ export const App = () => {
             <Route path="/" element={<HomePage />} />
             <Route path="/catalogo" element={<CatalogPage />} />
             <Route path="/producto/:id" element={<ProductPage />} />
+            <Route path="/pedido" element={<OrderPage />} />
+            <Route path="/aviso-de-privacidad" element={<PrivacyPage />} />
 
             {/* Admin */}
             <Route path="/admin/login" element={<LoginPage />} />
+            <Route
+              path="/admin/configuracion"
+              element={
+                <ProtectedRoute>
+                  <SettingsPage />
+                </ProtectedRoute>
+              }
+            />
             <Route
               path="/admin"
               element={

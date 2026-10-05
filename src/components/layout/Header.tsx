@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 
+import { useOrder } from "@/components/order/OrderProvider";
+import { useModules } from "@/hooks/useModules";
+
 export function Header() {
+  const { itemCount } = useOrder();
+  const { modules } = useModules();
   return (
     <header className="sticky top-0 z-40 border-b border-black/5 bg-white/95 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -8,9 +13,22 @@ export function Header() {
           Depredador Plus
         </span> */}
 
-        <Link to="/" className="font-display text-lg font-bold text-verde">
-          Depredador Plus
-          {/* Generador de Reportes */}
+        <Link
+          to="/"
+          className="flex items-center"
+          aria-label="Depredador Plus - Inicio"
+        >
+          <picture>
+            <source srcSet="/logo-header.webp" type="image/webp" />
+            <img
+              src="/logo-header.png"
+              alt="Depredador Plus"
+              width={147}
+              height={40}
+              className="h-10 w-[147px]"
+              fetchPriority="high"
+            />
+          </picture>
         </Link>
 
         <nav className="hidden sm:flex gap-6 text-sm font-medium ">
@@ -25,6 +43,19 @@ export function Header() {
           <Link to="/contacto" className="transition hover:text-verde">
             Contacto
           </Link>
+          {modules.orders && (
+            <Link
+              to="/pedido"
+              className="relative flex items-center gap-1.5 font-medium transition hover:text-verde"
+            >
+              Mi pedido
+              {itemCount > 0 && (
+                <span className="flex h-5 min-w-5 items-center justify-center rounded-full bg-ambar px-1.5 text-xs font-bold text-carbon">
+                  {itemCount}
+                </span>
+              )}
+            </Link>
+          )}
         </nav>
       </div>
     </header>

@@ -328,7 +328,7 @@ export function ProductsPage() {
                           className={`rounded-full px-2 py-0.5 text-xs font-medium ${
                             product.visible_public
                               ? "bg-verde/10 text-verde"
-                              : "bg-ambar/10 text-ambar"
+                              : "bg-ambar/10 text-ambar-texto"
                           }`}
                         >
                           {product.visible_public ? "Tienda" : "Interno"}

@@ -7,9 +7,20 @@ import { ProductCard } from "@/components/catalog/ProductCard";
 import { Seo } from "@/seo/Seo";
 import { PromoBanner } from "@/components/catalog/PromoBanner";
 
+import type { ContactConfig } from "@/types";
+import { usePublicSetting } from "@/hooks/usePublicSetting";
+import { DEFAULTS } from "@/services/settingsService";
+import { JsonLd } from "@/seo/JsonLd";
+import { localBusinessData } from "@/seo/structuredData";
+
 export function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+
+  const { config: contact } = usePublicSetting<ContactConfig>(
+    "contact",
+    DEFAULTS.contact,
+  );
 
   useEffect(() => {
     let cancelled = false;
@@ -48,11 +59,15 @@ export function HomePage() {
         description="Venenos e insecticidas para cucarachas, moscos, moscas, hormigas y alacranes. Arma tu pedido y envíalo por WhatsApp."
         path="/"
       />
-      
-      <PromoBanner/>
+
+      <JsonLd
+        data={localBusinessData(contact.business_name, contact.whatsapp)}
+      />
+
+      <PromoBanner />
 
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <p className="font-display text-sm font-semibold uppercase tracking-wider text-ambar">
+        <p className="font-display text-sm font-semibold uppercase tracking-wider text-ambar-texto">
           Control de plaga
         </p>
 
