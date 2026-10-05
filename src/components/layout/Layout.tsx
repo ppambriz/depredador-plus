@@ -13,7 +13,7 @@ export function Layout({ children }: LayoutProps) {
     <div className="flex min-h-dvh flex-col bg-fondo text-carbon">
       <AnnouncementBar />
       <Header />
-      <main className="flex-1">{children}</main>
+      <main className="min-h-dvh flex-1">{children}</main>
       <Footer />
       <WelcomeModal />
       <FloatingWhatsApp />

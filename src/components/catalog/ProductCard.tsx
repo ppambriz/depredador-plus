@@ -32,7 +32,7 @@ export const ProductCard = memo(({ product, categoryName }: Props) => {
 
       <div className="flex flex-1 flex-col p-4">
         {categoryName && (
-          <span className="text-xs font-medium uppercase tracking-wide text-ambar">
+          <span className="text-xs font-medium uppercase tracking-wide text-ambar-texto">
             {categoryName}
           </span>
         )}
