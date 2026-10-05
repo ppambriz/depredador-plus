@@ -13,9 +13,22 @@ export function Header() {
           Depredador Plus
         </span> */}
 
-        <Link to="/" className="font-display text-lg font-bold text-verde">
-          Depredador Plus
-          {/* Generador de Reportes */}
+        <Link
+          to="/"
+          className="flex items-center"
+          aria-label="Depredador Plus - Inicio"
+        >
+          <picture>
+            <source srcSet="/logo-header.webp" type="image/webp" />
+            <img
+              src="/logo-header.png"
+              alt="Depredador Plus"
+              width={147}
+              height={40}
+              className="h-10 w-[147px]"
+              fetchPriority="high"
+            />
+          </picture>
         </Link>
 
         <nav className="hidden sm:flex gap-6 text-sm font-medium ">

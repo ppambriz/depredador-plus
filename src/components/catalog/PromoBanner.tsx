@@ -10,6 +10,7 @@ export const PromoBanner = () => {
   const [enabled, setenabled] = useState(false);
   const [index, setindex] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     let cancelled = false;
@@ -22,7 +23,10 @@ export const PromoBanner = () => {
         setconfig(data.config);
         setSlides(data.slides);
       })
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => {
+        if (!cancelled) setLoading(false);
+      });
 
     return () => {
       cancelled = true;
@@ -52,7 +56,27 @@ export const PromoBanner = () => {
     };
   }, [isCarousel, paused, total, config?.autoplay_ms]);
 
-  if (!enabled || slides.length == 0) return null;
+  // Mientras se consulta la configuración, reservamos la altura del banner
+  // para que el contenido de abajo no salte cuando llegue.
+  if (loading) {
+    return (
+      <div
+        className="aspect-[21/9] w-full bg-fondo sm:aspect-[3/1]"
+        aria-hidden
+      />
+    );
+  }
+
+  if (loading) {
+    return (
+      <div
+        className="aspect-[21/9] w-full bg-fondo sm:aspect-[3/1]"
+        aria-hidden
+      />
+    );
+  }
+
+  if (!enabled || slides.length === 0) return null;
 
   const current = slides[index];
   if (!current) return null;
@@ -123,19 +147,21 @@ export const PromoBanner = () => {
             ›
           </button>
 
-          <div className="absolute bottom-4 left-1/2 flex -translate-x-1/2 gap-2">
+          <div className="absolute bottom-2 left-1/2 flex -translate-x-1/2">
             {slides.map((slide, i) => (
               <button
                 key={slide.id}
                 onClick={() => goTo(i)}
                 aria-label={`Ir a la promoción ${i + 1}`}
                 aria-current={i === index}
-                className={`h-2 cursor-pointer rounded-full transition-all ${
-                  i === index
-                    ? "w-6 bg-white"
-                    : "w-2 bg-white/50 hover:bg-white/80"
-                }`}
-              />
+                className="flex h-6 min-w-6 cursor-pointer items-center justify-center px-1"
+              >
+                <span
+                  className={`block h-2 rounded-full transition-all ${
+                    i === index ? "w-6 bg-white" : "w-2 bg-white/50"
+                  }`}
+                />
+              </button>
             ))}
           </div>
         </>

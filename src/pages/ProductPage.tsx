@@ -9,6 +9,8 @@ import { ProductCard } from "@/components/catalog/ProductCard";
 import { formatPrice } from "@/lib/format";
 import { AddToOrderButton } from "@/components/order/AddToOrderButton";
 import { useModules } from "@/hooks/useModules";
+import { JsonLd } from "@/seo/JsonLd";
+import { breadcrumbData, productData } from "@/seo/structuredData";
 
 export const ProductPage = () => {
   const { id: slug } = useParams();
@@ -120,6 +122,24 @@ export const ProductPage = () => {
           product.description || `${product.name} para control de plagas.`
         }
         path={`/producto/${product.slug}`}
+        image={product.image_url ?? undefined}
+      />
+
+      <JsonLd data={productData(product, category)} />
+      <JsonLd
+        data={breadcrumbData([
+          { name: "Inicio", url: "/" },
+          { name: "Catálogo", url: "/catalogo" },
+          ...(category
+            ? [
+                {
+                  name: category.name,
+                  url: `/catalogo?categoria=${category.slug}`,
+                },
+              ]
+            : []),
+          { name: product.name, url: `/producto/${product.slug}` },
+        ])}
       />
 
       <section className="mx-auto max-w-6xl px-4 py-10">
@@ -166,7 +186,7 @@ export const ProductPage = () => {
           {/* Info */}
           <div>
             {category && (
-              <span className="text-xs font-semibold uppercase tracking-wide text-ambar">
+              <span className="text-xs font-semibold uppercase tracking-wide text-ambar-texto">
                 {category.name}
               </span>
             )}
