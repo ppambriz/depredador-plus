@@ -1,4 +1,6 @@
+import { Link } from "react-router-dom";
 import { useState } from "react";
+
 import type { ContactConfig } from "@/types";
 import { useOrder } from "@/components/order/OrderProvider";
 import { useToast } from "@/components/ui/ToastProvider";
@@ -116,7 +118,11 @@ export function SendOrderForm({ onSent }: Props) {
 
       <p className="text-center text-xs text-gris">
         Se abrirá WhatsApp con tu pedido listo para enviar. Al continuar aceptas
-        que usemos tus datos para atender tu pedido.
+        nuestro{" "}
+        <Link to="/aviso-de-privacidad" className="underline hover:text-verde">
+          aviso de privacidad
+        </Link>
+        .
       </p>
     </form>
   );

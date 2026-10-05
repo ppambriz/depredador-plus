@@ -6,6 +6,7 @@ import { Layout } from "@/components/layout/Layout";
 import { HomePage } from "@/pages/HomePage";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import { PageLoader } from "./components/ui/PageLoader";
+import PrivacyPage from "./pages/PrivacyPage";
 
 // Public pages: loades on demand
 const CatalogPage = lazy(() => import("@/pages/CatalogPage"));
@@ -34,6 +35,7 @@ export const App = () => {
             <Route path="/catalogo" element={<CatalogPage />} />
             <Route path="/producto/:id" element={<ProductPage />} />
             <Route path="/pedido" element={<OrderPage />} />
+            <Route path="/aviso-de-privacidad" element={<PrivacyPage />} />
 
             {/* Admin */}
             <Route path="/admin/login" element={<LoginPage />} />
