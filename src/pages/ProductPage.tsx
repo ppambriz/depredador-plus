@@ -2,7 +2,7 @@ import { Link, useParams } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
 
 import { Seo } from "@/seo/Seo";
-import type { Category, Product } from "@/types";
+import type { Category, PublicProduct } from "@/types";
 import { productService } from "@/services/productService";
 import { categoryService } from "@/services/categoryService";
 import { ProductCard } from "@/components/catalog/ProductCard";
@@ -16,9 +16,9 @@ export const ProductPage = () => {
   const { id: slug } = useParams();
   const { modules } = useModules();
 
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<PublicProduct | null>(null);
   const [category, setCategory] = useState<Category | null>(null);
-  const [pRelated, setPRelated] = useState<Product[]>([]);
+  const [pRelated, setPRelated] = useState<PublicProduct[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 

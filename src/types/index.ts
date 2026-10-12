@@ -57,6 +57,19 @@ export interface Product extends AuditFields {
   min_stock: number;
 }
 
+// Producto tal como lo ve el público (ver migración 006_hide_cost_stock.sql)
+export type PublicProduct = Omit<
+  Product,
+  | "cost"
+  | "stock"
+  | "min_stock"
+  | "created_by"
+  | "deleted_at"
+  | "deleted_by"
+  | "deleted_user_agent"
+  | "deleted_ip"
+>;
+
 // -- Banner slides --
 
 export interface BannerSlide extends AuditFields {
@@ -202,6 +215,6 @@ export interface DraftItem {
   product_slug: string;
   image_url: string | null;
   unit_price: number;
-  unit_cost: number;
+  // unit_cost: number;
   quantity: number;
 }

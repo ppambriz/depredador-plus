@@ -6,7 +6,7 @@ import {
   useMemo,
   useState,
 } from "react";
-import type { DraftItem, Product } from "@/types";
+import type { DraftItem, PublicProduct } from "@/types";
 
 const STORAGE_KEY = "dp_draft_order";
 
@@ -14,7 +14,7 @@ type OrderContextValue = {
   items: DraftItem[];
   itemCount: number;
   total: number;
-  addItem: (product: Product, quantity?: number) => void;
+  addItem: (product: PublicProduct, quantity?: number) => void;
   setQuantity: (productId: string, quantity: number) => void;
   removeItem: (productId: string) => void;
   clear: () => void;
@@ -52,7 +52,7 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
     }
   }, [items]);
 
-  const addItem = useCallback((product: Product, quantity = 1) => {
+  const addItem = useCallback((product: PublicProduct, quantity = 1) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.product_id === product.id);
 
@@ -73,7 +73,7 @@ export function OrderProvider({ children }: { children: React.ReactNode }) {
           product_slug: product.slug,
           image_url: product.image_url,
           unit_price: product.price,
-          unit_cost: product.cost,
+          // unit_cost: product.cost,
           quantity,
         },
       ];

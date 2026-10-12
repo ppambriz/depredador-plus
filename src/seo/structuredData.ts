@@ -1,6 +1,7 @@
-import type { Category, Product } from "@/types";
+import type { Category, PublicProduct } from "@/types";
 
-const SITE_URL = import.meta.env.VITE_SITE_URL ?? "http://localhost:5173";
+const SITE_URL =
+  import.meta.env.VITE_SITE_URL ?? "https://depredadorplus.netlify.app/";
 
 export function localBusinessData(businessName: string, phone: string) {
   return {
@@ -20,7 +21,7 @@ export function localBusinessData(businessName: string, phone: string) {
   };
 }
 
-export function productData(product: Product, category: Category | null) {
+export function productData(product: PublicProduct, category: Category | null) {
   return {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -35,10 +36,7 @@ export function productData(product: Product, category: Category | null) {
       url: `${SITE_URL}/producto/${product.slug}`,
       priceCurrency: "MXN",
       price: product.price,
-      availability:
-        product.stock > 0
-          ? "https://schema.org/InStock"
-          : "https://schema.org/PreOrder",
+      availability: "https://schema.org/InStock",
     },
   };
 }

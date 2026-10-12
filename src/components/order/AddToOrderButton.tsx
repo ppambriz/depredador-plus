@@ -1,10 +1,10 @@
 import { useState } from "react";
-import type { Product } from "@/types";
+import type { PublicProduct } from "@/types";
 import { useOrder } from "@/components/order/OrderProvider";
 import { useToast } from "@/components/ui/ToastProvider";
 
 type Props = {
-  product: Product;
+  product: PublicProduct;
   showQuantity?: boolean;
 };
 
