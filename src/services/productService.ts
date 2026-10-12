@@ -1,4 +1,4 @@
-import type { Product } from "@/types";
+import type { Product, PublicProduct } from "@/types";
 import { supabase } from "@/lib/supabase";
 import {
   buildSoftDeletePayload,
@@ -6,6 +6,10 @@ import {
   RESTORE_PAYLOAD,
 } from "@/services/auditHelpers";
 import { codeService } from "@/services/codeService";
+
+// Debe coincidir EXACTAMENTE con el GRANT de 006_hide_cost_stock.sql
+const PUBLIC_COLUMNS =
+  "id, code, name, slug, description, price, image_url, category_id, active_ingredient, usage_instructions, warnings, active, visible_public, created_at";
 
 export type ProductVisibility = "all" | "public" | "internal";
 
@@ -37,26 +41,26 @@ export type ProductInput = {
 export const productService = {
   // ---------- Public store ----------
 
-  async listPublic(): Promise<Product[]> {
+  async listPublic(): Promise<PublicProduct[]> {
     if (!supabase) return [];
 
     const { data, error } = await supabase
       .from("products")
-      .select("*")
+      .select(PUBLIC_COLUMNS)
       .eq("active", true)
       .eq("visible_public", true)
       .order("name");
 
     if (error) throw error;
-    return data as Product[];
+    return data as PublicProduct[];
   },
 
-  async listRelatedRandom(): Promise<Product[]> {
+  async listRelatedRandom(): Promise<PublicProduct[]> {
     if (!supabase) return [];
 
     const { data, error } = await supabase
       .from("products")
-      .select("*")
+      .select(PUBLIC_COLUMNS)
       .eq("active", true)
       .eq("visible_public", true);
 
@@ -66,37 +70,37 @@ export const productService = {
 
     const randomizedData = [...data].sort(() => Math.random() - 0.5);
 
-    return randomizedData as Product[];
+    return randomizedData as PublicProduct[];
   },
 
-  async getBySlug(slug: string): Promise<Product | null> {
+  async getBySlug(slug: string): Promise<PublicProduct | null> {
     if (!supabase) return null;
 
     const { data, error } = await supabase
       .from("products")
-      .select("*")
+      .select(PUBLIC_COLUMNS)
       .eq("slug", slug)
       .eq("active", true)
       .eq("visible_public", true)
       .single();
 
     if (error) return null;
-    return data as Product;
+    return data as PublicProduct;
   },
 
-  async listByCategory(categoryId: string): Promise<Product[]> {
+  async listByCategory(categoryId: string): Promise<PublicProduct[]> {
     if (!supabase) return [];
 
     const { data, error } = await supabase
       .from("products")
-      .select("*")
+      .select(PUBLIC_COLUMNS)
       .eq("category_id", categoryId)
       .eq("active", true)
       .eq("visible_public", true)
       .order("name");
 
     if (error) throw error;
-    return data as Product[];
+    return data as PublicProduct[];
   },
 
   // ---------- Admin ----------

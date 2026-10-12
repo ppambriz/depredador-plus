@@ -22,10 +22,6 @@ export const orderService = {
       (sum, i) => sum + i.unit_price * i.quantity,
       0,
     );
-    const costTotal = items.reduce(
-      (sum, i) => sum + i.unit_cost * i.quantity,
-      0,
-    );
 
     const { data: order, error: orderError } = await supabase
       .from("orders")
@@ -36,7 +32,7 @@ export const orderService = {
         customer_notes: customer.notes.trim() || null,
         subtotal,
         total: subtotal,
-        cost_total: costTotal,
+        cost_total: 0, // lo calcula un trigger en la BD (DP034)
         source: "web",
       })
       .select()
@@ -53,7 +49,7 @@ export const orderService = {
         product_code: item.product_code,
         product_name: item.product_name,
         unit_price: item.unit_price,
-        unit_cost: item.unit_cost,
+        // unit_cost: item.unit_cost,
         quantity: item.quantity,
         subtotal: item.unit_price * item.quantity,
       })),

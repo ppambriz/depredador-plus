@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { useSearchParams } from "react-router-dom";
-import type { Category, Product } from "@/types";
+import type { Category, PublicProduct } from "@/types";
 import { productService } from "@/services/productService";
 import { categoryService } from "@/services/categoryService";
 import { ProductCard } from "@/components/catalog/ProductCard";
@@ -11,7 +11,7 @@ export function CatalogPage() {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeCategory = searchParams.get("categoria") ?? "";
 
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<PublicProduct[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");

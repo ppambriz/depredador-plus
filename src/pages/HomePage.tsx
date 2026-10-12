@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import type { Category, Product } from "@/types";
+import type { Category, PublicProduct } from "@/types";
 import { productService } from "@/services/productService";
 import { categoryService } from "@/services/categoryService";
 import { ProductCard } from "@/components/catalog/ProductCard";
@@ -14,7 +14,7 @@ import { JsonLd } from "@/seo/JsonLd";
 import { localBusinessData } from "@/seo/structuredData";
 
 export function HomePage() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<PublicProduct[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
 
   const { config: contact } = usePublicSetting<ContactConfig>(
