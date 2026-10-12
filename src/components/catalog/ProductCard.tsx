@@ -1,10 +1,10 @@
 import { formatPrice } from "@/lib/format";
-import type { Product } from "@/types";
+import type { PublicProduct } from "@/types";
 import { memo } from "react";
 import { Link } from "react-router-dom";
 
 type Props = {
-  product: Product;
+  product: PublicProduct;
   categoryName?: string;
 };
 

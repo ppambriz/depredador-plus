@@ -1,35 +1,16 @@
-# React + TypeScript + Vite
+## Entornos y base de datos
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+El proyecto usa **una sola base de datos** en Supabase (`depredador-plus`) para
+desarrollo local, previews y producción.
 
-Currently, two official plugins are available:
+**Motivo:** Netlify (plan gratuito) no separa variables de entorno por rama, así
+que un segundo proyecto no aislaba realmente los entornos.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Implicaciones:**
+- Lo que se pruebe en local o en un Deploy Preview escribe sobre datos reales.
+- Los datos de prueba deben limpiarse después de usarse.
+- Para pruebas de funciones nuevas, mantenerlas apagadas con los módulos
+  (feature flags) en Configuración hasta que estén listas.
 
-## React Compiler
-
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-You can also try [the experimental native React Compiler support in plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md#rust-react-compiler) by using `compiler: true` in the plugin options instead of using the Babel plugin.
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+**A futuro:** el proyecto `depredador-plus-prod` de Supabase se conserva sin uso.
+Si se necesita volver a separar entornos, se reutiliza para eso.

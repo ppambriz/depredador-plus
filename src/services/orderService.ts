@@ -1,6 +1,5 @@
-import type { DraftItem, Order } from "@/types";
+import type { DraftItem } from "@/types";
 import { supabase } from "@/lib/supabase";
-import { codeService } from "@/services/codeService";
 
 export type CustomerInput = {
   name: string;
@@ -9,60 +8,31 @@ export type CustomerInput = {
 };
 
 export const orderService = {
+  /**
+   * Crea el pedido mediante la función create_public_order de la BD.
+   * La BD genera el código, toma precio y costo de products,
+   * registra el código y lo hace todo en una sola transacción.
+   * Devuelve el código del pedido (ej. "PE0001").
+   */
   async createFromDraft(
     customer: CustomerInput,
     items: DraftItem[],
-  ): Promise<Order> {
+  ): Promise<string> {
     if (!supabase) throw new Error("Supabase is not configured");
     if (items.length === 0) throw new Error("Empty order");
 
-    const code = await codeService.suggestNextCode("order");
-
-    const subtotal = items.reduce(
-      (sum, i) => sum + i.unit_price * i.quantity,
-      0,
-    );
-    const costTotal = items.reduce(
-      (sum, i) => sum + i.unit_cost * i.quantity,
-      0,
-    );
-
-    const { data: order, error: orderError } = await supabase
-      .from("orders")
-      .insert({
-        code,
-        customer_name: customer.name.trim(),
-        customer_phone: customer.phone.trim(),
-        customer_notes: customer.notes.trim() || null,
-        subtotal,
-        total: subtotal,
-        cost_total: costTotal,
-        source: "web",
-      })
-      .select()
-      .single();
-
-    if (orderError) throw orderError;
-
-    const orderRow = order as Order;
-
-    const { error: itemsError } = await supabase.from("order_items").insert(
-      items.map((item) => ({
-        order_id: orderRow.id,
-        product_id: item.product_id,
-        product_code: item.product_code,
-        product_name: item.product_name,
-        unit_price: item.unit_price,
-        unit_cost: item.unit_cost,
-        quantity: item.quantity,
-        subtotal: item.unit_price * item.quantity,
+    const { data, error } = await supabase.rpc("create_public_order", {
+      p_customer_name: customer.name,
+      p_customer_phone: customer.phone,
+      p_customer_notes: customer.notes,
+      // Solo qué producto y cuántos; precio y costo los pone la BD
+      p_items: items.map((i) => ({
+        product_id: i.product_id,
+        quantity: i.quantity,
       })),
-    );
+    });
 
-    if (itemsError) throw itemsError;
-
-    await codeService.registerCode("order", code);
-
-    return orderRow;
+    if (error) throw error;
+    return data as string;
   },
 };
