@@ -43,13 +43,13 @@ export function SendOrderForm({ onSent }: Props) {
     setSending(true);
 
     try {
-      const order = await orderService.createFromDraft(
+      const code = await orderService.createFromDraft(
         { name, phone, notes },
         items,
       );
 
       const message = buildOrderMessage({
-        orderCode: order.code,
+        orderCode: code,
         customerName: name.trim(),
         customerPhone: phone.trim(),
         notes,
@@ -61,7 +61,7 @@ export function SendOrderForm({ onSent }: Props) {
       window.open(buildWhatsAppUrl(config.whatsapp, message), "_blank");
 
       clear();
-      onSent(order.code);
+      onSent(code);
     } catch {
       showToast("No se pudo registrar el pedido. Intenta de nuevo.", "error");
     } finally {
